@@ -1,3 +1,5 @@
+package java8;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
@@ -52,15 +54,12 @@ public class Main {
      */
     private static void extractDuplicateElements() {
         List<Integer> numbers = Arrays.asList(1, 2, 3, 2, 4, 5, 1, 3);
-
-        List<Integer> duplicates = numbers.stream()
-                .collect(Collectors.groupingBy(e -> e, Collectors.counting()))
-                .entrySet().stream()
-                .filter(e -> e.getValue() > 1)
-                .map(e -> e.getKey())
-                .collect(Collectors.toList());
-
-        System.out.println("Duplicate elements: " + duplicates);
+        List<Integer> duplicates = numbers.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                        .entrySet().stream()
+                        .filter(e->e.getValue() > 1)
+                                .map(e->e.getKey())
+                                        .toList();
+        System.out.println("1. Duplicate elements: " + duplicates);
 
     }
 
@@ -72,7 +71,7 @@ public class Main {
         LocalDate birthDate = LocalDate.of(1984, 5, 5);
         LocalDate currentDate = LocalDate.now();
         int age = Period.between(birthDate, currentDate).getYears();
-        System.out.println("Age of the person is: " + age);
+        System.out.println("2. Age of the person is: " + age);
     }
 
     /**
@@ -80,9 +79,11 @@ public class Main {
      * Write a Java 8 program to get the last element of an array.
      */
     private static void lastElementInTheArray() {
-        int[] intArray = {0,1,2,3,4,5};
-        System.out.println(Arrays.stream(intArray).boxed().reduce((a,b)->b)
-                .get());
+        int[] intArray = {0,1,2,3,4,22};
+        //System.out.println(intArray[intArray.length -1]);
+        //System.out.println("3. Last Number in the Array -> "+ Arrays.stream(intArray).map(n-> intArray[intArray.length-1]).findFirst().orElseGet(null));
+        System.out.println("3. Last Number in the Array -> "+Arrays.stream(intArray).boxed().reduce((a,b) -> b).get());
+        System.out.println(Arrays.stream(intArray).boxed().reduce((a,b) -> b).get());
     }
 
     /**
@@ -90,10 +91,8 @@ public class Main {
      * Write a Java 8 program to print the first 10 odd numbers.
      */
     private static void firstTenOddNumbers() {
-        IntStream.rangeClosed(1,30).filter(i -> i%2 !=0)
-                .limit(10)
-                .map(t->t)
-                .forEach(System.out::println);
+        List<Integer> oddNumbers = IntStream.rangeClosed(1,20).boxed().filter(i-> i%2 != 0).toList();
+        System.out.println("4. First Ten Odd Numbers -> "+oddNumbers);
     }
 
     /**
@@ -108,10 +107,8 @@ public class Main {
      * .forEach(System.out::println): This prints each Fibonacci number to the console.
      */
     private static void generateFibonacciSeries() {
-        Stream.iterate(new int[]{0, 1}, t -> new int[]{t[1], t[0] + t[1]})
-                .limit(10)
-                .map(t -> t[0])
-                .forEach(System.out::println);
+        System.out.println("5. Fibonacci Series -> ");
+        Stream.iterate(new int[] {0,1}, t -> new int[] {t[1],t[0]+t[1]}).limit(10).map(t->t[0]).forEach(System.out::println);
     }
 
     /**
@@ -120,13 +117,12 @@ public class Main {
      */
     private static void firstNonRepeatingCharacter() {
         String str = "programming";
-        String nonReapting = str.chars()
-                .mapToObj(c->(char)c)
-                .collect(Collectors.groupingBy(c->c,Collectors.counting()))
-                .entrySet().stream()
-                .filter(e->e.getValue() ==1)
-                .map(e->e.getKey()).findFirst().get().toString();
-        System.out.println(nonReapting);
+        String nonReapting = str.chars().mapToObj(c-> (char)c).collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
+                        .entrySet().stream()
+                        .filter(e->e.getValue() == 1).map(e->e.getKey().toString()).findFirst().get();
+
+
+        System.out.println("first Non Repeating Character -> "+nonReapting);
     }
 
     /**
@@ -135,14 +131,11 @@ public class Main {
      */
     private static void firstRepeatedCharacter() {
         String str = "programming";
-        String repeatedFrist = str.chars()
-                .mapToObj(c ->(char) c)
-                .collect(Collectors.groupingBy(c->c, Collectors.counting()))
-                .entrySet().stream()
-                .filter(e->e.getValue() > 1)
-                .map(e-> e.getKey().toString())
-                        .findFirst().get().toString();
-        System.out.println(repeatedFrist);
+        String repeatedFrist = str.chars().mapToObj(c->(char)c)
+                        .collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
+                                .entrySet().stream().filter(e->e.getValue()>1).map(e->e.getKey().toString())
+                        .findFirst().get();
+        System.out.println("First Repeated Char in String -- : "+repeatedFrist);
     }
 
     /**
@@ -154,26 +147,22 @@ public class Main {
 //        System.out.println(Arrays.stream(word.split("")).filter(s-> word.indexOf(s) != word.lastIndexOf(s))
 //                .map(s -> s.charAt(0))
 //                .toList());
-        String duplicates = str.chars()
-                .mapToObj(c -> (char) c)
-                .collect(Collectors.groupingBy(c -> c, Collectors.counting()))
+        String duplicates = str.chars().mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet().stream()
-                .filter(e -> e.getValue() > 1)
-                .map(e -> e.getKey().toString())
-                .collect(Collectors.joining());
-        System.out.println(duplicates);
+                .filter(c -> c.getValue() > 1)
+                .map(c -> c.getKey().toString()).collect(Collectors.joining());
+        System.out.println("Duplicate Chars --> " + duplicates);
     }
-
+/**/
     /**
      * Find strings in a list that start with a number
      * Given a list of strings, write a Java 8 program to find the strings that start with a number.
      */
     private static void stringsStartsWithNumber() {
-        String [] words= {"rohit","foo","nemo","target1","12Target","2robot"};
-        List<String> stringStartNumber = Arrays.stream(words)
-                .filter(word -> Character.isDigit(word.charAt(0)))
-                .toList();
-        System.out.println(stringStartNumber);
+        String [] words= {"00rohit","foo","nemo","target1","12Target","2robot"};
+        List<String> stringStartNumber = Arrays.asList(words).stream().filter(e-> Character.isDigit(e.charAt(0))).toList();
+        System.out.println("stringsStartsWithNumber -> "+stringStartNumber);
     }
 
     /**
@@ -183,11 +172,9 @@ public class Main {
     private static void checkIsTheStringPalindrome() {
         String str = "mom";
         //String reverse = new StringBuffer(str).reverse().toString();
-        String reversed = str.chars()
-                .mapToObj(c -> (char)c)
-                .reduce("", (s,c) -> c+s, (s1,s2) -> s2+s1);
+        String reversed = str.chars().mapToObj(c->(char) c).reduce("",(c1,c2)->c2+c1, (s1,s2)-> s2+s1).toString();
 
-        System.out.println(str.equals(reversed));
+        System.out.println("checkIsTheStringPalindrome -> "+str.equals(reversed));
     }
 
     /**
@@ -197,12 +184,8 @@ public class Main {
     private static void mostRepeatedElement() {
         int[] numbers = {1, 2, 3, 2, 2, 4, 5, 2, 1, 3};
         List<Integer> nums = Arrays.asList(1,2,4,4,5,6,6,1,2,2);
-        Integer most = nums.stream()
-                .collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
-                        .entrySet().stream().max(Map.Entry.comparingByValue())
-                        .map(Map.Entry::getKey)
-                                .orElseGet(null);
-//        int mostRepeated = Arrays.stream(numbers)
+        Integer most = nums.stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting())).entrySet().stream()
+                .max(Map.Entry.comparingByValue()).map(e->e.getKey()).get();
 //                .boxed()
 //                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
 //                .entrySet().stream()
@@ -220,10 +203,8 @@ public class Main {
      */
     private static void reversedArray() {
         int [] numberArray ={1,5,3,4,55,6,7,8,9,10};
-        int[] reverse = IntStream.rangeClosed(1,numberArray.length)
-                        .map(num -> numberArray[numberArray.length-num])
-                                .toArray();
-        System.out.println(Arrays.toString(reverse));
+        int [] reverse = IntStream.rangeClosed(0, numberArray.length-1).map(n-> numberArray.length-n).toArray();
+        System.out.println("reversedArray -> "+Arrays.toString(reverse));
     }
 
     /**
@@ -232,10 +213,8 @@ public class Main {
      */
     private static void reverseEachWord() {
         String stmt = "java is OOP language";
-        String reverse = Arrays.stream(stmt.split(" "))
-                .map(s-> new StringBuffer(s).reverse())
-                .collect(Collectors.joining(" "));
-        System.out.println(reverse);
+        String reverse = Arrays.stream(stmt.split(" ")).map(s-> new StringBuffer(s).reverse()).collect(Collectors.joining(" "));
+        System.out.println("Reverse words - > "+reverse);
     }
 
     /**
@@ -244,9 +223,9 @@ public class Main {
      */
     private static void commonElements() {
         List<Integer> oneToTen = of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        List<Integer> twoToTen = of(2, 3, 4, 5, 6, 7, 8, 9, 10);
-        List<Integer> common = oneToTen.stream().filter(i -> twoToTen.contains(i)).toList();
-        System.out.println(common);
+        List<Integer> twoToTen = of( 3, 4, 5, 6, 7, 8, 9);
+        List<Integer> common = oneToTen.stream().filter(i-> twoToTen.contains(i)).toList();
+        System.out.println("commonElements - > "+common);
     }
 
     /**
@@ -256,9 +235,9 @@ public class Main {
     private static void calculateAndSumAndAverage() {
         int[] numbers = {1,4,5,5,6};
         Integer sum = Arrays.stream(numbers).sum();
-        Double avg = Arrays.stream(numbers).average().orElse(1);
-        System.out.println(sum);
-        System.out.println(avg);
+        Double avg = Arrays.stream(numbers).average().orElseGet(null);
+        System.out.println("Sum -> "+sum);
+        System.out.println("Avg -> "+avg);
     }
 
 
@@ -268,15 +247,10 @@ public class Main {
      */
     private static void min3max3() {
         List<Integer> numbers = Arrays.asList(12,4,55,1,6,5,11,35,87,90);
-        List<Integer> min3 = numbers.stream()
-                .sorted()
-                .limit(3)
-                .toList();
-        List<Integer> max3 = numbers.stream()
-                .sorted(Comparator.reverseOrder())
-                .limit(3).toList();
-        System.out.println(min3);
-        System.out.println(max3);
+        List<Integer> min3 = numbers.stream().sorted().limit(3).toList();
+        List<Integer> max3 = numbers.stream().sorted(Comparator.reverseOrder()).limit(3).toList();
+        System.out.println("Min 3 - "+min3);
+        System.out.println("Max 3 - " + max3);
     }
 
     /**
@@ -286,7 +260,7 @@ public class Main {
     private static void mergeUnsortedArrayIntoSortedWithoutDuplicate() {
         int [] randomNumbers ={12, 32, 2, 4, 777, 5, 32, 890, 422, 44, 99, 43};
         int [] randomNumber2 = {4, 32, 2, 5, 6, 78, 98, 53, 90};
-        int[] resultNums = IntStream.concat(Arrays.stream(randomNumbers),Arrays.stream(randomNumber2)).distinct().sorted().toArray();
+        int[] resultNums = IntStream.concat(Arrays.stream(randomNumbers),Arrays.stream(randomNumber2)).sorted().distinct().toArray();
         System.out.println(Arrays.toString(resultNums));
     }
 
@@ -296,8 +270,8 @@ public class Main {
      */
     private static void secondLargestNumberFromList() {
         List<Integer> numbers = IntStream.rangeClosed(1,10).boxed().toList();
-        Integer secLarge = numbers.stream().sorted(Comparator.reverseOrder()).skip(1).findFirst().orElse(Integer.MAX_VALUE);
-        System.out.println(secLarge);
+        Integer secLarge = numbers.stream().sorted(Comparator.reverseOrder()).skip(1).findFirst().get();
+        System.out.println("secondLargestNumberFromList - " + secLarge);
     }
 
     /**
@@ -307,7 +281,7 @@ public class Main {
     private static void sortByLengthOfList() {
         List<String> names = Arrays.asList("Sagar","Behera","Aaravi","Manvi","A");
         List<String> resultSorted = names.stream().sorted(Comparator.comparingInt(String::length)).toList();
-        System.out.println(resultSorted);
+        System.out.println("sortByLengthOfList -> "+resultSorted);
     }
 
     /**
@@ -327,8 +301,8 @@ public class Main {
     private static void isAnagram() {
         String string1 = "listen";
         String string2 = "silent";
-        String join1 = Arrays.stream(string1.split("")).sorted().collect(Collectors.joining(""));
-        String join2 = Arrays.stream(string2.split("")).sorted().collect(Collectors.joining(""));
+        String join1 = Arrays.stream(string1.split("")).sorted().collect(Collectors.joining());
+        String join2 = Arrays.stream(string2.split("")).sorted().collect(Collectors.joining());
         System.out.println(join2.equals(join1));
     }
 
@@ -339,7 +313,7 @@ public class Main {
     private static void mergeUnsortedArrayIntoSorted() {
         int [] randomNumbers ={12, 32, 2, 4, 777, 5, 32, 890, 422, 44, 99, 43};
         int [] randomNumber2 = {4, 3, 2, 5, 6, 78, 98, 53, 90};
-        int[] sortedArrayByMergingTwoArray = IntStream.concat(Arrays.stream(randomNumbers),Arrays.stream(randomNumber2)).sorted().toArray();
+        int[] sortedArrayByMergingTwoArray = IntStream.concat(Arrays.stream(randomNumbers), Arrays.stream(randomNumber2)).sorted().toArray();
         System.out.println(Arrays.toString(sortedArrayByMergingTwoArray));
     }
 
@@ -361,7 +335,7 @@ public class Main {
      */
     private static void multipleOf5() {
         List<Integer> randomNumbers = of(12, 32, 2, 4, 35, 5, 32, 90, 422, 44, 99, 43);
-        List<Integer> result = randomNumbers.stream().filter(i -> i%5==0).toList(); //collect(toList()) Java 8 and direct toList() Java 16
+        List<Integer> result = randomNumbers.stream().filter(i->i%5==0).toList(); //collect(toList()) Java 8 and direct toList() Java 16
         System.out.println(result);
         //randomNumbers.stream().filter(i -> i%5==0).forEach(System.out::println);
     }
@@ -375,7 +349,7 @@ public class Main {
 
     private static void reverseSortedList() {
         List<Integer> randomNumbers = of(12, 32, 2, 4, 777, 5, 32, 890, 422, 44, 99, 43);
-        List<Integer> result = randomNumbers.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        List<Integer> result = randomNumbers.stream().sorted(Comparator.reverseOrder()).toList();
         System.out.println("Reverse Order : "+result);
     }
 
@@ -388,8 +362,7 @@ public class Main {
 
     private static void charFrequency() {
         String name = "Sagar";
-        Map<String,Long> result = Arrays.stream(name.split(""))
-                        .collect(Collectors.groupingBy(Function.identity(),Collectors.counting()));
+        Map<String,Long> result = Arrays.stream(name.split("")).collect(Collectors.groupingBy(Function.identity(),Collectors.counting()));
         System.out.println("Char Frequency :: "+result);
     }
 
@@ -402,8 +375,7 @@ public class Main {
 
     private static void filterEvenOddList(){
         List<Integer> numbers = IntStream.rangeClosed(1,10).boxed().toList();
-        Collection<List<Integer>> list = numbers.stream()
-                .collect(Collectors.collectingAndThen(Collectors.partitioningBy(i -> i%2 == 0), Map::values));
+        Collection<List<Integer>> list = numbers.stream().collect(Collectors.collectingAndThen(Collectors.partitioningBy( n->n%2==0),Map::values));
         System.out.println("Even and Odd ->"+list);
     }
 
@@ -426,7 +398,7 @@ public class Main {
      */
     private static  void longestString(){
         List<String> strings = Arrays.asList("Sagar","Aaravi","Sripriya","Ambu");
-        String result = strings.stream().reduce((s,d) -> s.length() > d.length()? s: d).get();
+        String result =  strings.stream().reduce((s,d) -> s.length() > d.length() ? s : d).get();
         System.out.println("Longest String in the List: "+result);
     }
 }

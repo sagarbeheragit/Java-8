@@ -12,7 +12,7 @@ import static java.util.List.of;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+public class Java8Code {
     public static void main(String[] args) {
         charFrequency();//1
         removeDuplicate();//2
@@ -161,7 +161,7 @@ public class Main {
      */
     private static void stringsStartsWithNumber() {
         String [] words= {"00rohit","foo","nemo","target1","12Target","2robot"};
-        List<String> stringStartNumber = Arrays.asList(words).stream().filter(e-> Character.isDigit(e.charAt(0))).toList();
+        List<String> stringStartNumber = Arrays.stream(words).filter(s->Character.isDigit(s.charAt(0))).toList();
         System.out.println("stringsStartsWithNumber -> "+stringStartNumber);
     }
 
@@ -172,7 +172,7 @@ public class Main {
     private static void checkIsTheStringPalindrome() {
         String str = "mom";
         //String reverse = new StringBuffer(str).reverse().toString();
-        String reversed = str.chars().mapToObj(c->(char) c).reduce("",(c1,c2)->c2+c1, (s1,s2)-> s2+s1).toString();
+        String reversed = str.chars().mapToObj(c->(char)c).reduce("",(c,d)->d+c, (f,e)->e+f).toString();
 
         System.out.println("checkIsTheStringPalindrome -> "+str.equals(reversed));
     }
@@ -183,15 +183,11 @@ public class Main {
      */
     private static void mostRepeatedElement() {
         int[] numbers = {1, 2, 3, 2, 2, 4, 5, 2, 1, 3};
-        List<Integer> nums = Arrays.asList(1,2,4,4,5,6,6,1,2,2);
-        Integer most = nums.stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting())).entrySet().stream()
-                .max(Map.Entry.comparingByValue()).map(e->e.getKey()).get();
-//                .boxed()
-//                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-//                .entrySet().stream()
-//                .max(Map.Entry.comparingByValue())
-//                .map(Map.Entry::getKey)
-//                .orElse(null);
+        List<Integer> nums = Arrays.asList(1, 2, 4, 4, 5, 6, 6, 1, 2, 2);
+        Integer most = nums.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream().max(Map.Entry.comparingByValue())
+                .get()
+                .getKey();
 
         System.out.println("Most repeated element: " + most);
 
@@ -203,7 +199,7 @@ public class Main {
      */
     private static void reversedArray() {
         int [] numberArray ={1,5,3,4,55,6,7,8,9,10};
-        int [] reverse = IntStream.rangeClosed(0, numberArray.length-1).map(n-> numberArray.length-n).toArray();
+        int[] reverse = IntStream.rangeClosed(1,numberArray.length).map(n-> numberArray[numberArray.length-n]).toArray();
         System.out.println("reversedArray -> "+Arrays.toString(reverse));
     }
 
@@ -213,7 +209,7 @@ public class Main {
      */
     private static void reverseEachWord() {
         String stmt = "java is OOP language";
-        String reverse = Arrays.stream(stmt.split(" ")).map(s-> new StringBuffer(s).reverse()).collect(Collectors.joining(" "));
+        String reverse = Arrays.stream(stmt.split(" ")).map(n-> new StringBuilder(n).reverse()).collect(Collectors.joining(" "));
         System.out.println("Reverse words - > "+reverse);
     }
 
@@ -235,7 +231,7 @@ public class Main {
     private static void calculateAndSumAndAverage() {
         int[] numbers = {1,4,5,5,6};
         Integer sum = Arrays.stream(numbers).sum();
-        Double avg = Arrays.stream(numbers).average().orElseGet(null);
+        Double avg = Arrays.stream(numbers).average().getAsDouble();
         System.out.println("Sum -> "+sum);
         System.out.println("Avg -> "+avg);
     }
@@ -261,7 +257,7 @@ public class Main {
         int [] randomNumbers ={12, 32, 2, 4, 777, 5, 32, 890, 422, 44, 99, 43};
         int [] randomNumber2 = {4, 32, 2, 5, 6, 78, 98, 53, 90};
         int[] resultNums = IntStream.concat(Arrays.stream(randomNumbers),Arrays.stream(randomNumber2)).sorted().distinct().toArray();
-        System.out.println(Arrays.toString(resultNums));
+        System.out.println("merge two unsorted arrays into a single-sorted array without duplicates-> "+Arrays.toString(resultNums));
     }
 
     /**
@@ -271,7 +267,7 @@ public class Main {
     private static void secondLargestNumberFromList() {
         List<Integer> numbers = IntStream.rangeClosed(1,10).boxed().toList();
         Integer secLarge = numbers.stream().sorted(Comparator.reverseOrder()).skip(1).findFirst().get();
-        System.out.println("secondLargestNumberFromList - " + secLarge);
+        System.out.println("Second Largest Number From List - " + secLarge);
     }
 
     /**
@@ -281,7 +277,7 @@ public class Main {
     private static void sortByLengthOfList() {
         List<String> names = Arrays.asList("Sagar","Behera","Aaravi","Manvi","A");
         List<String> resultSorted = names.stream().sorted(Comparator.comparingInt(String::length)).toList();
-        System.out.println("sortByLengthOfList -> "+resultSorted);
+        System.out.println("sort By Length Of List -> "+resultSorted);
     }
 
     /**
@@ -375,7 +371,8 @@ public class Main {
 
     private static void filterEvenOddList(){
         List<Integer> numbers = IntStream.rangeClosed(1,10).boxed().toList();
-        Collection<List<Integer>> list = numbers.stream().collect(Collectors.collectingAndThen(Collectors.partitioningBy( n->n%2==0),Map::values));
+        Collection<List<Integer>> list = numbers.stream().collect(Collectors.collectingAndThen(Collectors.partitioningBy(i->i%2==0),Map::values));
+
         System.out.println("Even and Odd ->"+list);
     }
 

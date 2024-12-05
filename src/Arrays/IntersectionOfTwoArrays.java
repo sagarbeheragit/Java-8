@@ -10,6 +10,7 @@ public class IntersectionOfTwoArrays {
         int intersectionLength = array1.length;
         if (array2.length < array1.length)
             intersectionLength = array2.length;
+
         int[] intersectionArray = new int[intersectionLength];
         int i = 0;
         for (int a : array1) {

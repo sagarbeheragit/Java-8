@@ -1,6 +1,7 @@
 package sorting;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.IntStream;
 
 public class BubbleSort {
@@ -23,6 +24,7 @@ public class BubbleSort {
                     int temp = data[i];
                     data[i] = data[i+1];
                     data[i+1] = temp;
+                    //Collections.swap(Arrays.asList(data), i, i+1);
                     isSorted = false;
                 }
             }

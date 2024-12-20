@@ -54,11 +54,12 @@ public class Java8Code {
      */
     private static void extractDuplicateElements() {
         List<Integer> numbers = Arrays.asList(1, 2, 3, 2, 4, 5, 1, 3);
-        List<Integer> duplicates = numbers.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-                        .entrySet().stream()
-                        .filter(e->e.getValue() > 1)
-                                .map(e->e.getKey())
-                                        .toList();
+        List<Integer> duplicates = numbers.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(e -> e.getValue() > 1)
+                .map(e -> e.getKey())
+                .toList();
         System.out.println("1. Duplicate elements: " + duplicates);
 
     }
@@ -91,7 +92,7 @@ public class Java8Code {
      * Write a Java 8 program to print the first 10 odd numbers.
      */
     private static void firstTenOddNumbers() {
-        List<Integer> oddNumbers = IntStream.rangeClosed(1,20).boxed().filter(i-> i%2 != 0).toList();
+        List<Integer> oddNumbers = IntStream.range(1,20).boxed().filter(i-> i%2 != 0).toList();
         System.out.println("4. First Ten Odd Numbers -> "+oddNumbers);
     }
 
@@ -108,7 +109,7 @@ public class Java8Code {
      */
     private static void generateFibonacciSeries() {
         System.out.println("5. Fibonacci Series -> ");
-        Stream.iterate(new int[] {0,1}, t -> new int[] {t[1],t[0]+t[1]}).limit(10).map(t->t[0]).forEach(System.out::println);
+        Stream.iterate(new int[]{0,1}, t-> new int[]{t[1], t[0]+t[1]}).limit(10).map(t-> t[0]).forEach(System.out::println);
     }
 
     /**
@@ -117,12 +118,11 @@ public class Java8Code {
      */
     private static void firstNonRepeatingCharacter() {
         String str = "programming";
-        String nonReapting = str.chars().mapToObj(c-> (char)c).collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
-                        .entrySet().stream()
-                        .filter(e->e.getValue() == 1).map(e->e.getKey().toString()).findFirst().get();
-
-
-        System.out.println("first Non Repeating Character -> "+nonReapting);
+        String nonReapting = str.chars().mapToObj(c -> (char) c).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(e -> e.getValue() == 1)
+                .map(e -> e.getKey().toString()).findFirst().get();
+        System.out.println("6 . first Non Repeating Character -> "+nonReapting);
     }
 
     /**
@@ -135,7 +135,7 @@ public class Java8Code {
                         .collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
                                 .entrySet().stream().filter(e->e.getValue()>1).map(e->e.getKey().toString())
                         .findFirst().get();
-        System.out.println("First Repeated Char in String -- : "+repeatedFrist);
+        System.out.println("7. First Repeated Char in String -- : "+repeatedFrist);
     }
 
     /**
@@ -152,7 +152,7 @@ public class Java8Code {
                 .entrySet().stream()
                 .filter(c -> c.getValue() > 1)
                 .map(c -> c.getKey().toString()).collect(Collectors.joining());
-        System.out.println("Duplicate Chars --> " + duplicates);
+        System.out.println("8. Duplicate Chars --> " + duplicates);
     }
 /**/
     /**
@@ -162,7 +162,7 @@ public class Java8Code {
     private static void stringsStartsWithNumber() {
         String [] words= {"00rohit","foo","nemo","target1","12Target","2robot"};
         List<String> stringStartNumber = Arrays.stream(words).filter(s->Character.isDigit(s.charAt(0))).toList();
-        System.out.println("stringsStartsWithNumber -> "+stringStartNumber);
+        System.out.println("9. Strings Starts With Number -> "+stringStartNumber);
     }
 
     /**
@@ -174,7 +174,7 @@ public class Java8Code {
         //String reverse = new StringBuffer(str).reverse().toString();
         String reversed = str.chars().mapToObj(c->(char)c).reduce("",(c,d)->d+c, (f,e)->e+f).toString();
 
-        System.out.println("checkIsTheStringPalindrome -> "+str.equals(reversed));
+        System.out.println("10. Check If The String Palindrome -> "+str.equals(reversed));
     }
 
     /**
@@ -184,12 +184,11 @@ public class Java8Code {
     private static void mostRepeatedElement() {
         int[] numbers = {1, 2, 3, 2, 2, 4, 5, 2, 1, 3};
         List<Integer> nums = Arrays.asList(1, 2, 4, 4, 5, 6, 6, 1, 2, 2);
-        Integer most = nums.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-                .entrySet().stream().max(Map.Entry.comparingByValue())
-                .get()
-                .getKey();
+        Integer most = nums.stream().collect(Collectors.groupingBy(Function.identity(),Collectors.counting()))
+                        .entrySet().stream()
+                        .max(Map.Entry.comparingByValue()).get().getKey();
 
-        System.out.println("Most repeated element: " + most);
+        System.out.println("11. Most repeated element: " + most);
 
     }
 
@@ -199,8 +198,8 @@ public class Java8Code {
      */
     private static void reversedArray() {
         int [] numberArray ={1,5,3,4,55,6,7,8,9,10};
-        int[] reverse = IntStream.rangeClosed(1,numberArray.length).map(n-> numberArray[numberArray.length-n]).toArray();
-        System.out.println("reversedArray -> "+Arrays.toString(reverse));
+        int[] reverse = IntStream.rangeClosed(1,numberArray.length-1).map(n-> numberArray[numberArray.length-n]).toArray();
+        System.out.println("12. Reversed Array -> "+Arrays.toString(reverse));
     }
 
     /**
@@ -210,7 +209,7 @@ public class Java8Code {
     private static void reverseEachWord() {
         String stmt = "java is OOP language";
         String reverse = Arrays.stream(stmt.split(" ")).map(n-> new StringBuilder(n).reverse()).collect(Collectors.joining(" "));
-        System.out.println("Reverse words - > "+reverse);
+        System.out.println("13. Reverse words - > "+reverse);
     }
 
     /**

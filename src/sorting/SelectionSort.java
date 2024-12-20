@@ -15,16 +15,16 @@ public class SelectionSort {
     private static void selectionSort() {
         int[] data = { -2, 45, 0, 11, -9 };
         int currentIdx = 0;
-        while(currentIdx < data.length-1){
+        while(currentIdx < data.length - 1){
             int smallestId = currentIdx;
-            for (int i = currentIdx+1; i<data.length; i++){
-                if(data[smallestId] > data[i]){
+            for(int i = currentIdx+1; i < data.length; i++){
+                if(data[i] < data[smallestId]){
                     smallestId = i;
                 }
             }
-            int temp = data[smallestId];
-            data[smallestId] = data[currentIdx];
-            data[currentIdx] = temp;
+            int temp = data[currentIdx];
+            data[currentIdx] = data[smallestId];
+            data[smallestId] = temp;
             currentIdx ++;
         }
         System.out.println("selectionSort --> "+Arrays.stream(data).boxed().toList());

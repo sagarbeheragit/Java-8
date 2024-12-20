@@ -17,14 +17,13 @@ public class BubbleSort {
     public static void  bubbleSort(){
         int[] data = { -2, 45, 0, 11, -9 };
         boolean isSorted = false;
-        while (!isSorted){
+        while(!isSorted){
             isSorted = true;
-            for(int i=0; i<data.length -1; i++){
+            for(int i = 0; i < data.length -1; i++){
                 if(data[i] > data[i+1]){
                     int temp = data[i];
                     data[i] = data[i+1];
                     data[i+1] = temp;
-                    //Collections.swap(Arrays.asList(data), i, i+1);
                     isSorted = false;
                 }
             }

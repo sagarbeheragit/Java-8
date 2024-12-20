@@ -17,18 +17,16 @@ public class MergeSort {
     }
 
     private static void mergeSort(int[] array){
-
-        int length = array.length;
-        if(length <= 1) return;
-
-        int middle = length/2;
+        int lenght = array.length;
+        if(lenght <=1) return;
+        int middle = lenght/2;
         int[] leftArray = new int[middle];
-        int[] rightArray = new int[length - middle];
-        int l = 0, r = 0;
-        for(;l < length; l++) {
-            if (l < middle) {
+        int[] rightArray = new int[lenght-middle];
+        int l=0,r = 0;
+        for(;l < lenght;l++){
+            if(l < middle){
                 leftArray[l] = array[l];
-            } else {
+            }else {
                 rightArray[r] = array[l];
                 r++;
             }
@@ -36,23 +34,22 @@ public class MergeSort {
         mergeSort(leftArray);
         mergeSort(rightArray);
         merge(leftArray,rightArray,array);
+
     }
 
     private static void merge(int[] leftArray, int[] rightArray, int[] array){
-        //get length and middle
-        //loop through each left and right and compare and merge to array
         int leftSize = array.length/2;
         int rightSize = array.length - leftSize;
         int i = 0, l = 0, r = 0;
         while(l < leftSize && r < rightSize){
             if(leftArray[l] < rightArray[r]){
                 array[i] = leftArray[l];
-                i++;
                 l++;
-            }else{
-                array[i] = rightArray[r];
                 i++;
+            }else {
+                array[i] = rightArray[r];
                 r++;
+                i++;
             }
         }
         while (l < leftSize){

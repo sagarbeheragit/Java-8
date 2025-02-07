@@ -18,14 +18,14 @@ public class PairSum {
     }
 
     private static List<Integer> pairSum(List<Integer> numbers, int target) {
-        Map<Integer, Integer> count = new HashMap<>();
+        Map<Integer, Integer> countMap = new HashMap<>();
         List<Integer> result = new ArrayList<>();
         for(int i = 0; i < numbers.size(); i++){
             int complement = target - numbers.get(i);
-            if(count.containsKey(complement)){
-               return  List.of(count.get(complement),i);
+            if(countMap.containsKey(complement)){
+               return  List.of(countMap.get(complement),i);
             }
-            count.put(Integer.valueOf(numbers.get(i)),Integer.valueOf(i));
+            countMap.put(Integer.valueOf(numbers.get(i)),Integer.valueOf(i));
         }
         return  null;
     }

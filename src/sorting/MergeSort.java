@@ -12,21 +12,20 @@ public class MergeSort {
 
         int[] array = {-2, 45, 0, 11, -9, -34, 99, 3, 11, 33, 900};
         mergeSort(array);
-
         System.out.println("Merge Sort -> "+Arrays.stream(array).boxed().toList());
     }
 
     private static void mergeSort(int[] array){
-        int lenght = array.length;
-        if(lenght <=1) return;
-        int middle = lenght/2;
+        int length = array.length;
+        if(length <=1) return;
+        int middle = length/2;
         int[] leftArray = new int[middle];
-        int[] rightArray = new int[lenght-middle];
-        int l=0,r = 0;
-        for(;l < lenght;l++){
+        int[] rightArray = new int[length-middle];
+        int l=0, r=0;
+        for(;l < length; l++){
             if(l < middle){
                 leftArray[l] = array[l];
-            }else {
+            }else{
                 rightArray[r] = array[l];
                 r++;
             }
@@ -34,30 +33,30 @@ public class MergeSort {
         mergeSort(leftArray);
         mergeSort(rightArray);
         merge(leftArray,rightArray,array);
-
     }
 
     private static void merge(int[] leftArray, int[] rightArray, int[] array){
-        int leftSize = array.length/2;
-        int rightSize = array.length - leftSize;
-        int i = 0, l = 0, r = 0;
-        while(l < leftSize && r < rightSize){
+        int leftSize = leftArray.length;
+        int rightSize = rightArray.length;
+        int i=0, l=0, r=0;
+        while( l < leftSize && r < rightSize){
             if(leftArray[l] < rightArray[r]){
                 array[i] = leftArray[l];
+                i++;
                 l++;
-                i++;
-            }else {
+            }
+            else{
                 array[i] = rightArray[r];
-                r++;
                 i++;
+                r++;
             }
         }
-        while (l < leftSize){
+        while(l < leftSize){
             array[i] = leftArray[l];
             i++;
             l++;
         }
-        while (r < rightSize){
+        while(r < rightSize){
             array[i] = rightArray[r];
             i++;
             r++;

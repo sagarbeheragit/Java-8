@@ -2,7 +2,7 @@ package string;
 
 public class IsPalindrom {
     public static void main(String[] args) {
-        System.out.println(isPalindrom("race a car")); // TAC not same as dog but MOM is same as mom
+        System.out.println(isPalindrome("rac a car")); // TAC not same as dog but MOM is same as mom
     }
     public  static boolean isPalindrom(String name){
         //System.out.println(name);

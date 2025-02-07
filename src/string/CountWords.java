@@ -10,6 +10,7 @@ public class CountWords {
         List<String> wordList = Arrays.stream(words.split(" ")).toList();
         System.out.println(wordList);
         String[] word = words.split("\\s+");
+        System.out.println(words);
         System.out.println(Arrays.asList(word).size());
         System.out.println(countWords(words));
         count("sagAr");

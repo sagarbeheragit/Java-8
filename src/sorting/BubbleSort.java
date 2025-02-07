@@ -17,17 +17,20 @@ public class BubbleSort {
     public static void  bubbleSort(){
         int[] data = { -2, 45, 0, 11, -9 };
         boolean isSorted = false;
-        while(!isSorted){
+        while (!isSorted){
             isSorted = true;
-            for(int i = 0; i < data.length -1; i++){
+            for(int i = 0; i < data.length - 1; i++){
                 if(data[i] > data[i+1]){
-                    int temp = data[i];
-                    data[i] = data[i+1];
-                    data[i+1] = temp;
+                    swap(data, i, i+1);
                     isSorted = false;
                 }
             }
         }
         System.out.println(Arrays.stream(data).boxed().toList());
+    }
+    private  static void swap(int[] data, int a, int b){
+        int temp = data[a];
+        data[a] = data[b];
+        data[b] = temp;
     }
 }

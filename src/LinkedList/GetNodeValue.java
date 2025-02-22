@@ -30,16 +30,16 @@ public class GetNodeValue {
     }
 
     private static String getNodeValue(Node<String> head, int index) {
-        String value="";
-        Node<String> current = head;
-        int i = 0;
-        while (current != null){
-            if(i == index) {
-                return current.val;
-            }
-            i++;
-            current = current.next;
-        }
-        return value;
+       String result = "";
+       Node<String> current = head;
+       int i = 0;
+       while (current != null){
+           if(index == i){
+               result = current.val;
+           }
+           current = current.next;
+           i += 1;
+       }
+       return result;
     }
 }

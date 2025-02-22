@@ -36,8 +36,8 @@ public class DepthFirstValues {
     }
 
     private static List<String>  depthFirstValues(Node<String> root) {
-        Stack<Node<String>> stack = new Stack<>();
         List<String> values = new ArrayList<>();
+        Stack<Node<String>> stack = new Stack<>();
         if(root != null){
             stack.push(root);
         }
@@ -68,13 +68,13 @@ public class DepthFirstValues {
 }
 
 class Node<T>{
+    T val;
     Node<T> left;
     Node<T> right;
-    T val;
     Node(T val){
-        this.val = val;
-        this.left= null;
-        this.right = null;
+        this.val=val;
+        left=null;
+        right=null;
     }
 
 }

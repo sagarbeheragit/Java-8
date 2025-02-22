@@ -41,7 +41,7 @@ public class BreadthFirstValues {
         if(root != null){
             queue.add(root);
         }
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()){
             Node<String> node = queue.poll();
             values.add(node.val);
             if(node.left != null){

@@ -25,7 +25,7 @@ public class PairSum {
             if(countMap.containsKey(complement)){
                return  List.of(countMap.get(complement),i);
             }
-            countMap.put(Integer.valueOf(numbers.get(i)),Integer.valueOf(i));
+            countMap.put(numbers.get(i),i);
         }
         return  null;
     }
